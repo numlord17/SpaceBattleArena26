@@ -18,6 +18,6 @@ public class ExampleShip extends BasicSpaceship {
     @Override
     public ShipCommand getNextCommand(BasicEnvironment env)
     {
-        return new IdleCommand(0.1);
+        return new RotateCommand(10000000);
     }
 }
