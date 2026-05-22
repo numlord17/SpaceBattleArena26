@@ -12,12 +12,15 @@ public class ExampleShip extends BasicSpaceship {
     @Override
     public RegistrationData registerShip(int numImages, int worldWidth, int worldHeight)
     {
-        return new RegistrationData("////////////", new Color(240, 0, 255), 5);
+        return new RegistrationData("testing", new Color(240, 0, 255), 5);
     }
 
     @Override
     public ShipCommand getNextCommand(BasicEnvironment env)
     {
-        return new RotateCommand(10000000);
+        ObjectStatus ship = env.getShipStatus();
+        Point midpoint = new Point(500,500);
+        return new RotateCommand(ship.getPosition().getAngleTo(midpoint) - ship.getOrientation());
+        return new ThrustCommand('F', 1, 50);
     }
 }
