@@ -27,21 +27,19 @@ public class ExampleShip extends BasicSpaceship {
     public ShipCommand getNextCommand(BasicEnvironment env)
     {
         
-        ship = env.getShipStatus();
+            ship = env.getShipStatus();
+            System.out.println("Health: " + (int) ship.getHealth());
+            System.out.println("Speed: " + (int) ship.getSpeed());
         
-        String mode = "attack";
-        
-        if (mode.equals("findmiddle"))
-        {
             if (!isFacingCenter(env))
             {
                 return new RotateCommand(ship.getPosition().getAngleTo(midpoint) - ship.getOrientation());
             }
             if (ship.getPosition().getDistanceTo(midpoint) >= 200)
             {
-                return new ThrustCommand('B', 0.5, 1);
+                return new ThrustCommand('B', 0.15, 1);
             }
-            else if ((ship.getPosition().getDistanceTo(midpoint) < 200) && (isFacingCenter(env)))
+            else if ((ship.getPosition().getDistanceTo(midpoint) < 200) && (isFacingCenter(env)) && (ship.getSpeed() > 10))
             {
                 return new BrakeCommand(0.01);
             }
@@ -49,35 +47,7 @@ public class ExampleShip extends BasicSpaceship {
             {
                 return new IdleCommand(0.1);
             }
-        }
-        if (mode.equals("attack"))
-        {
-            System.out.println(env.getRadar().getById(1499));
-            System.out.println(env.getRadar());
-            if (ship.getPosition().getDistanceTo(midpoint) >= 200)
-            {
-               return new RadarCommand(3,1499);
-            }
-            else
-            {
-               /*
-               if (!(env.getRadar().getById(1234).getPosition().getAngleTo(midpoint) - ship.getOrientation() == 0))
-               {
-                  return new RotateCommand(env.getRadar().getById(1234).getPosition().getAngleTo(midpoint) - ship.getOrientation());
-               }
-               else
-               {
-                  return new IdleCommand(0.1);
-               }
-               */
-               return new IdleCommand(0.1);
-            }
-        }
-        else
-        {
-            return new IdleCommand(0.1);
-        }
-        
+            
     }
     
     public boolean isFacingCenter(BasicEnvironment env)
