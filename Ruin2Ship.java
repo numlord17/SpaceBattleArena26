@@ -4,14 +4,14 @@ import java.util.Random;
 import ihs.apcs.spacebattle.*;
 import ihs.apcs.spacebattle.commands.*;
 
-public class ExampleShip extends BasicSpaceship {
+public class Ruin2Ship extends BasicSpaceship {
     private int worldWidth;
     private int worldHeight;
     private Point midpoint;
     private ObjectStatus ship;
     public static void main(String[] args)
     {
-        TextClient.run("10.56.98.121", new ExampleShip()); //default is 127.0.0.1
+        TextClient.run("10.56.98.121", new Ruin2Ship()); //default is 127.0.0.1
     }
 
     @Override
@@ -20,7 +20,7 @@ public class ExampleShip extends BasicSpaceship {
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
         this.midpoint = new Point(worldWidth / 2, worldHeight / 2);
-        return new RegistrationData("testing", new Color(240, 0, 255), 5);
+        return new RegistrationData(":(", new Color(240, 0, 255), 5);
     }
 
     @Override
@@ -30,36 +30,19 @@ public class ExampleShip extends BasicSpaceship {
             ship = env.getShipStatus();
             System.out.println("Health: " + (int) ship.getHealth());
             System.out.println("Speed: " + (int) ship.getSpeed());
-            System.out.println("Objects in range: " + env.getRadar().getNumObjects());
+            System.out.println("Energy: " + ship.getEnergy());
         
             if (!isFacingCenter(env))
             {
                 return new RotateCommand(ship.getPosition().getAngleTo(midpoint) - ship.getOrientation());
             }
-            if (ship.getPosition().getDistanceTo(midpoint) >= 200)
+            else if (ship.getEnergy() > 3)
             {
-                Random random = new Random();
-                int randomNum = random.nextInt(3);
-                if (randomNum == 0)
-                {
-                  return new ThrustCommand('B', 1, 1);
-                }
-                if (randomNum == 1)
-                {
-                  return new RadarCommand(5);
-                }
-                else
-                {
-                  return new FireTorpedoCommand('F');
-                }
-            }
-            else if ((ship.getPosition().getDistanceTo(midpoint) < 200) && (isFacingCenter(env)) && (ship.getSpeed() > 10))
-            {
-                return new BrakeCommand(0.01);
+                return new FireTorpedoCommand('F');
             }
             else
             {
-                return new IdleCommand(0.1);
+               return new ThrustCommand('F',1.1,5);
             }
             
     }
