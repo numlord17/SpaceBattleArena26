@@ -60,12 +60,10 @@ public class ExampleShip extends BasicSpaceship {
                 //return new RotateCommand(ship.getPosition().getAngleTo(midpoint) - ship.getOrientation());
                 //return new RotateCommand(ship.getPosition().getAngleTo(aimPoint) - ship.getOrientation());
                 //return new ThrustCommand('B',1,1);
-                shot = false;
                 return new RadarCommand(5);
             }
-            else if (isFacingPlayer(env) && randomNum == 1 && shot == false)
+            else if (isFacingPlayer(env) && randomNum == 1)
             {
-               shot = true;
                return new FireTorpedoCommand('F');
             }
             /*
