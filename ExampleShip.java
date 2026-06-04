@@ -21,37 +21,56 @@ public class ExampleShip extends BasicSpaceship {
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
         this.midpoint = new Point(worldWidth / 2, worldHeight / 2);
-        this.aimPoint = new Point(1111,1111);
+        this.aimPoint = midpoint;
         return new RegistrationData("testing", new Color(240, 0, 255), 5);
     }
 
     @Override
     public ShipCommand getNextCommand(BasicEnvironment env)
     {
-            Point aimPoint = new Point(1111,1111);
+            //Point aimPoint = new Point(1111,1111);
             ship = env.getShipStatus();
             System.out.println("Health: " + (int) ship.getHealth());
             System.out.println("Speed: " + (int) ship.getSpeed());
+            System.out.println(aimPoint);
             if (env.getRadar() != null)
             {
-            
-            for (ObjectStatus status : env.getRadar().getByType("Ship"))
+            System.out.println("radar is NOT null");
+            for (ObjectStatus status : env.getRadar())
             {
+               System.out.println(aimPoint);
                if (status.getPosition().getDistanceTo(ship.getPosition()) < ship.getPosition().getDistanceTo(aimPoint))
                {
+                  System.out.println("found a new aimpoint");
                   aimPoint = status.getPosition();
+                  System.out.println(aimPoint);
                }
             }
             }
-            if (!isFacingPlayer(env))
+            Random random = new Random();
+            int randomNum = random.nextInt(2);
+            if (!isFacingPlayer(env) && randomNum == 1)
             {
                 //return new RotateCommand(ship.getPosition().getAngleTo(midpoint) - ship.getOrientation());
                 return new RotateCommand(ship.getPosition().getAngleTo(aimPoint) - ship.getOrientation());
             }
-            if (isFacingPlayer(env))
+            else if (!isFacingPlayer(env) && randomNum == 0)
+            {
+                //return new RotateCommand(ship.getPosition().getAngleTo(midpoint) - ship.getOrientation());
+                //return new RotateCommand(ship.getPosition().getAngleTo(aimPoint) - ship.getOrientation());
+                //return new ThrustCommand('B',1,1);
+                return new RadarCommand(5);
+            }
+            else if (isFacingPlayer(env) && randomNum == 1)
             {
                return new FireTorpedoCommand('F');
             }
+            /*
+            else if (isFacingPlayer(env) && randomNum == 0)
+            {
+               return new ThrustCommand('B',1,1);
+            }
+            */
             /*
             if (ship.getPosition().getDistanceTo(midpoint) >= 200)
             {
@@ -71,10 +90,12 @@ public class ExampleShip extends BasicSpaceship {
                 }
             }
             */
+            /*
             else if ((ship.getPosition().getDistanceTo(midpoint) < 200) && (ship.getSpeed() > 10))
             {
                 return new BrakeCommand(0.01);
             }
+            */
             else
             {
                 return new IdleCommand(0.1);
@@ -84,7 +105,7 @@ public class ExampleShip extends BasicSpaceship {
     
     public boolean isFacingPlayer(BasicEnvironment env)
     {
-      if (ship.getPosition().getAngleTo(aimPoint) - ship.getOrientation() == 0)
+      if (Math.abs(ship.getPosition().getAngleTo(aimPoint) - ship.getOrientation()) <= 20)
       {
           return true;
       }
