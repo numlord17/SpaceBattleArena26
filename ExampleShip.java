@@ -72,13 +72,12 @@ public class ExampleShip extends BasicSpaceship {
             }
             if (ship.getPosition().getDistanceTo(midpoint) >= 200)
             {
-                Random random = new Random();
-                int randomNum = random.nextInt(3);
-                if (randomNum == 0)
+                int randomNum2 = random.nextInt(3);
+                if (randomNum2 == 0)
                 {
                   return new ThrustCommand('B', 1, 1);
                 }
-                if (randomNum == 1)
+                if (randomNum2 == 1)
                 {
                   return new RadarCommand(5);
                 }
