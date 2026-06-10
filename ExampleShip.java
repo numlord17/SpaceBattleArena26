@@ -22,7 +22,7 @@ public class ExampleShip extends BasicSpaceship {
         this.worldHeight = worldHeight;
         this.midpoint = new Point(worldWidth / 2, worldHeight / 2);
         this.aimPoint = midpoint;
-        return new RegistrationData("testing", new Color(240, 0, 255), 5);
+        return new RegistrationData("CHUDtesting", new Color(240, 0, 255), 5);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ExampleShip extends BasicSpaceship {
             if (env.getRadar() != null)
             {
             System.out.println("radar is NOT null");
-            for (ObjectStatus status : env.getRadar())
+            for (ObjectStatus status : env.getRadar().getByType("Asteroid"))
             {
                System.out.println(aimPoint);
                if (status.getPosition().getDistanceTo(ship.getPosition()) < ship.getPosition().getDistanceTo(aimPoint))
@@ -66,13 +66,10 @@ public class ExampleShip extends BasicSpaceship {
             {
                return new FireTorpedoCommand('F');
             }
-            /*
             else if (isFacingPlayer(env) && randomNum == 0)
             {
                return new ThrustCommand('B',1,1);
             }
-            */
-            /*
             if (ship.getPosition().getDistanceTo(midpoint) >= 200)
             {
                 Random random = new Random();
@@ -90,13 +87,10 @@ public class ExampleShip extends BasicSpaceship {
                   return new FireTorpedoCommand('F');
                 }
             }
-            */
-            /*
             else if ((ship.getPosition().getDistanceTo(midpoint) < 200) && (ship.getSpeed() > 10))
             {
                 return new BrakeCommand(0.01);
             }
-            */
             else
             {
                 return new IdleCommand(0.1);
